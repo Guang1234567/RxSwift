@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.3
 
 import PackageDescription
 
@@ -48,10 +48,10 @@ let package = Package(
   products: ([
     [
       .library(name: "RxSwift", targets: ["RxSwift"]),
-      .library(name: "RxCocoa", targets: ["RxCocoa"]),
+      //.library(name: "RxCocoa", targets: ["RxCocoa"]),
       .library(name: "RxRelay", targets: ["RxRelay"]),
       .library(name: "RxBlocking", targets: ["RxBlocking"]),
-      .library(name: "RxTest", targets: ["RxTest"]),
+      //.library(name: "RxTest", targets: ["RxTest"]),
     ],
     Product.allTests()
   ] as [[Product]]).flatMap { $0 },
@@ -59,12 +59,12 @@ let package = Package(
     [
       .target(name: "RxSwift", dependencies: []),
     ], 
-    Target.rxCocoa(),
-    Target.rxCocoaRuntime(),
+    //Target.rxCocoa(),
+    //Target.rxCocoaRuntime(),
     [
       .target(name: "RxRelay", dependencies: ["RxSwift"]),
       .target(name: "RxBlocking", dependencies: ["RxSwift"]),
-      .target(name: "RxTest", dependencies: ["RxSwift"]),
+      //.target(name: "RxTest", dependencies: ["RxSwift"]),
     ],
     Target.allTests()
   ] as [[Target]]).flatMap { $0 },

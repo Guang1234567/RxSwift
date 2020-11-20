@@ -11,7 +11,6 @@ import Foundation
 import RxSwift
 
 #if os(Linux)
-    import Foundation
     #if compiler(>=5.0) 
     let runLoopMode: RunLoop.Mode = .default
     #else
@@ -19,6 +18,9 @@ import RxSwift
     #endif
 
     let runLoopModeRaw: CFString = unsafeBitCast(runLoopMode.rawValue._bridgeToObjectiveC(), to: CFString.self)
+#elseif os(Android)
+    let runLoopMode: CFRunLoopMode = kCFRunLoopDefaultMode
+    let runLoopModeRaw = runLoopMode
 #else
     let runLoopMode: CFRunLoopMode = CFRunLoopMode.defaultMode
     let runLoopModeRaw = runLoopMode.rawValue
@@ -79,6 +81,20 @@ final class RunLoopLock {
                 default:
                     fatalError("This failed because `CFRunLoopRunResult` wasn't bridged to Swift.")
                 }
+            // same as '#else' condition, so comment it
+            /*#elseif os(Android)
+                switch CFRunLoopRunInMode(runLoopMode, timeout, false) {
+                case .finished:
+                    return
+                case .handledSource:
+                    return
+                case .stopped:
+                    return
+                case .timedOut:
+                    throw RxError.timeout
+                default:
+                    return
+                }*/
             #else
                 switch CFRunLoopRunInMode(runLoopMode, timeout, false) {
                 case .finished:
